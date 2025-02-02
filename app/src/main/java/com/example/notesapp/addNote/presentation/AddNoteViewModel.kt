@@ -83,7 +83,7 @@ class AddNoteViewModel @Inject constructor(
             // Delete the note if it is empty
             _deleteNoteUseCase.execute(noteModel.id)
 
-            // Navigate back
+            // Navigate to back
             viewModelScope.launch(Dispatchers.Main) {
                 _event.emit(Event.NavigateBAck)
             }
