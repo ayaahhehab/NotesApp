@@ -11,7 +11,7 @@ class GetNotesUseCase (
     private val repository: NotesRepository
 
 ){
-
+    //make sure the data fetching happens
     suspend fun execute(): List<NoteModel>{
         return withContext(Dispatchers.IO){
             repository.getAll()

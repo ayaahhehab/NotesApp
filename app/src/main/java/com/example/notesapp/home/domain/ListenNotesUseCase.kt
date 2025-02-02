@@ -15,6 +15,7 @@ class ListenNotesUseCase(
 ) {
     suspend fun execute(): Flow<NotesEvent> {
 
+        //channelFlow is used to send multiple events over time
             return channelFlow {
                 withContext(Dispatchers.IO){
                     launch {

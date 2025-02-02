@@ -36,15 +36,18 @@ class NotesRepositoryImpl (
 //        }
 //    }
 
+    // Fetches all notes from the database and converts them to NoteModel objects.
     override suspend fun getAll(): List<NoteModel>{
         return dao.getAll().map {it.toModel()}
     }
 
+    //Fetches a single note by its ID and converts it to NoteModel.
     override suspend fun get(id:Int) : NoteModel {
         return dao.getItem(id).toModel()
     }
 
     override suspend fun insert (item: NoteModel): Int{
+
         val newId = dao.insertItem(item.toEntity()).toInt()
         val newNote = item.copy(
             id = newId
@@ -53,7 +56,9 @@ class NotesRepositoryImpl (
         return newId
     }
 
+
     override suspend fun update (item: NoteModel){
+
         dao.updateItem(item.toEntity())
         _updateNoteListener.emit(item)
     }

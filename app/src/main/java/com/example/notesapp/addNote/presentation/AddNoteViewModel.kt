@@ -79,14 +79,20 @@ class AddNoteViewModel @Inject constructor(
             title= _title.value,
             description = _description.value
         )
+        if (noteModel.title.isBlank() && noteModel.description.isBlank()) {
+            // Delete the note if it is empty
+            _deleteNoteUseCase.execute(noteModel.id)
+
+            // Navigate back
+            viewModelScope.launch(Dispatchers.Main) {
+                _event.emit(Event.NavigateBAck)
+            }
+            return@launch
+        }
+
 
         // save notes
         _addNoteUseCase.execute(noteModel)
-//        if (noteModel.id == -1){
-//            repository.insert(noteModel)
-//        }else{
-//            repository.update(noteModel)
-//        }
 
         // navigate back
         viewModelScope.launch(Dispatchers.Main) {

@@ -30,8 +30,9 @@ class HomeViewModel @Inject constructor(
     val notesList = mutableStateListOf<NoteModel>()
     private val _eventFlow = MutableSharedFlow<HomeEvent>()
     val eventFlow: SharedFlow<HomeEvent> = _eventFlow.asSharedFlow()
-    val _scope = viewModelScope
+    val _scope = viewModelScope //launch background tasks (fetching data).
 
+    // Fetches and listens for changes in notes when the ViewModel is created.
     init {
         _scope.launch (Dispatchers.IO){
             val items = getNotesUseCase.execute()
@@ -62,9 +63,10 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    //when clicking on any note it navigate to its data
     fun listItemOnClick(id:Int) = _scope.launch(Dispatchers.Main){
         Log.d(TAG,"listItemOnClick: $id")
-        val rout = Routes.ADD_NOTE + "/$id"
+        val rout = Routes.ADD_NOTE + "/$id" // Create the route to navigate
         _eventFlow.emit(HomeEvent.NavigateNext(rout))
     }
 
